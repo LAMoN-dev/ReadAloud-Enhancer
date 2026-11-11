@@ -19,3 +19,17 @@ Its key objectives include:
 ReadAloud Enhancer is part of the broader **ChatGPT Synergy Project**, an initiative exploring external tools and client enhancements that improve human–AI interaction beyond the limitations of the standard interface.
 
 **Core philosophy:** The user should control the listening experience, rather than be constrained by the playback capabilities of the original application.
+
+## Technical documentation v0.1
+
+Updated 2026-11-11 for the documented v0.12 application baseline.
+
+- [Architecture and component responsibilities](docs/ARCHITECTURE.md)
+- [Archive, revisions and committed-byte accounting](docs/ARCHIVE.md)
+- [Build prerequisites, running and source import](docs/BUILD-AND-RUN.md)
+- [Validation evidence and remaining checks](docs/VALIDATION.md)
+- [ReadAloud Bridge implementation roadmap v0.2](docs/BRIDGE-ROADMAP.md)
+
+**Repository status:** technical documentation is available; the original v0.12 C# source and build/test scripts still need to be imported. This repository cannot yet reproduce the application build. The deployment package contains executables and legacy PowerShell scripts, which do not replace that source.
+
+Architecture details are attributed to the earlier Technical Handoff v0.1 and supplied release notes. The new ReadAloud Bridge is planned and is not represented as implemented.
