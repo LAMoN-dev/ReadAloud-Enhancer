@@ -20,16 +20,17 @@ ReadAloud Enhancer is part of the broader **ChatGPT Synergy Project**, an initia
 
 **Core philosophy:** The user should control the listening experience, rather than be constrained by the playback capabilities of the original application.
 
-## Technical documentation v0.1
+## Technical documentation v0.2
 
-Updated 2026-11-11 for the documented v0.12 application baseline.
+Updated 2026-11-11 for the v0.12 source baseline.
 
+- [Original C# sources and build script](src/INTEX.ReadAloudEnhancer/)
 - [Architecture and component responsibilities](docs/ARCHITECTURE.md)
-- [Archive, revisions and committed-byte accounting](docs/ARCHIVE.md)
-- [Build prerequisites, running and source import](docs/BUILD-AND-RUN.md)
-- [Validation evidence and remaining checks](docs/VALIDATION.md)
-- [ReadAloud Bridge implementation roadmap v0.2](docs/BRIDGE-ROADMAP.md)
+- [Archive and committed-byte accounting](docs/ARCHIVE.md)
+- [Build and baseline test instructions](docs/BUILD-AND-RUN.md)
+- [Validation evidence](docs/VALIDATION.md)
+- [ReadAloud Bridge roadmap](docs/BRIDGE-ROADMAP.md)
 
-**Repository status:** technical documentation is available; the original v0.12 C# source and build/test scripts still need to be imported. This repository cannot yet reproduce the application build. The deployment package contains executables and legacy PowerShell scripts, which do not replace that source.
+The original C# source, build script, manifest and required icon are now included. Runtime data, recordings and user settings are excluded. The supplied source-package v0.12 executable is byte-identical to the previously supplied deployment executable; a fresh Windows rebuild and baseline test run are still required.
 
-Architecture details are attributed to the earlier Technical Handoff v0.1 and supplied release notes. The new ReadAloud Bridge is planned and is not represented as implemented.
+ReadAloud Bridge remains pending. Source import preserves the existing application behavior.

@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+**/test-output*/
+**/history/
+**/history-cache/
+**/history-index/
+**/cache-recovery/
+**/buffer/
+**/tools/
+**/intex-settings.json
+*.log
+*.pdb

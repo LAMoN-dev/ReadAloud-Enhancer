@@ -1,7 +1,7 @@
 # INTEX ReadAloud Bridge roadmap v0.2
 
 Date: 2026-11-11. Capability identifier: readaloud-v1.
-Status: authorized design; implementation blocked pending original Enhancer source and deployment-baseline confirmation.
+Status: authorized design; original Enhancer source imported; awaiting Windows baseline tests and deployment-baseline confirmation before functional changes.
 
 ## Goal
 

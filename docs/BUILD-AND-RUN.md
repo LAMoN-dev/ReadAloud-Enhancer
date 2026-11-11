@@ -1,35 +1,51 @@
-# Build and run guide v0.1
+# Build and run guide v0.2
 
-Application baseline: v0.12. Date: 2026-11-11.
+Application source baseline: v0.12. Date: 2026-11-11.
 
-## Current repository status
+## Build
 
-This repository currently contains documentation. The original C# sources, build.ps1, application manifest and test harness still need to be imported from the development project. A clone cannot yet build the v0.12 application.
+Original sources are in src/INTEX.ReadAloudEnhancer. The imported build.ps1 is unchanged. It uses the Windows .NET Framework 64-bit csc.exe, emits an x64 WinForms executable and references WPF, UI Automation, System.Drawing and System.Web.Extensions.
 
-The supplied deployment package contains v0.12 and older executables, release/test documentation, older PowerShell implementations and runtime data. The older PowerShell files are not the C# source of v0.12.
+Run in Windows PowerShell on a host with the required .NET Framework and reference assemblies:
 
-## Reported build environment
+```powershell
+Set-Location .\src\INTEX.ReadAloudEnhancer
+.\build.ps1
+```
 
-Technical Handoff v0.1 describes a C# x64 Windows executable built with the Windows .NET Framework csc.exe through build.ps1. Dependencies include WinForms, System.Drawing, WPF PresentationCore/WindowsBase, UI Automation and System.Web.Extensions.
+Output: bin/INTEX ReadAloud Enhancer v0.12.exe. The manifest and icon are included. The script declares a Tests switch but does not execute tests; invoke the test modes explicitly.
 
-The inspected host had .NET Framework 4.8. The minimum supported framework version has not been established. The build has no explicit target-framework moniker according to the handoff.
+The previously inspected host had .NET Framework 4.8. The minimum supported framework version has not been established. A fresh Windows build was not executed during this cloud source import.
 
-Obtain the complete source project and inspect build.ps1 before documenting an exact reproducible build command. Preserve all original test modes and manifest settings.
+## Dependencies and data root
 
-## Running an existing v0.12 distribution
+Normal startup defaults the data root to the EXE directory; --data-root overrides it. The root must be writable. Existing deployment dependencies include tools/ffmpeg.exe and tools/ffprobe.exe with their distributor license/build notices. Preserve those from the existing deployment or obtain the appropriate upstream distribution. This repository does not include the dependency binaries.
 
-Close the previous application through its tray Exit action, then launch the v0.12 executable using the supplied launcher or EXE. Retain the existing data directory and older executable for rollback. The original program supports a data-root override according to the handoff; check the source before changing deployment layout.
+The build alone does not populate bin/tools. Prepare a separate test root with the needed tools before running conversion/playback tests. The test fixture generator uses tools/ffmpeg.exe under the supplied data root.
 
-For Auto Read aloud, select the intended ChatGPT window in Options and switch to that window during the selection countdown. Then generate a new response. Enabling the option alone does not select a conversation window. Window selection is session-specific and must be repeated after restarting.
+## Baseline tests on Windows
 
-## Dependencies
+Example using a separately prepared test root and an existing output directory:
 
-The supplied dependency note identifies a Gyan FFmpeg essentials distribution, with ffmpeg.exe and ffprobe.exe under tools/. The original distributor license and build information accompany the deployment. Its stated version/checksum verification is historical documentation, not a new download verification by this update.
+```powershell
+$exe = Join-Path $PWD 'bin\INTEX ReadAloud Enhancer v0.12.exe'
+$testRoot = 'C:\INTEX-Test-Root'
+$reportDir = Join-Path $testRoot 'reports'
+New-Item -ItemType Directory -Force $reportDir | Out-Null
+foreach ($mode in @('self-test','ui-test','tray-test','watch-test','auto-trigger-test')) {
+    $report = Join-Path $reportDir ($mode + '.json')
+    $arguments = '--' + $mode + ' --data-root "' + $testRoot + '" --report "' + $report + '"'
+    $process = Start-Process -FilePath $exe -ArgumentList $arguments -Wait -PassThru
+    if ($process.ExitCode -ne 0) { throw ('Failed: ' + $mode) }
+}
+```
 
-Consult the distributor's license and corresponding source/build information when preparing redistributable releases. Application source licensing has not been established by this documentation update.
+UI/playback modes require an interactive Windows desktop. Read each JSON report; process launch alone is not a pass. The activation-host test requires a second instance and is not covered by the loop above. Diagnostic --probe, --compatibility and --auto-probe modes have different purposes; they are not substitutes for functional tests.
 
-## Source import and rollback
+## Running and rollback
 
-Import original C# files, build scripts, manifest, required assets, source-side documentation and tests. Keep personal recording histories, settings, diagnostic logs and generated outputs outside the source repository.
+Close the previous instance through its tray Exit action, then launch the selected executable using the established writable data root. Retain the prior executable and back up the complete data directory before any future archive-format migration.
 
-Tag the verified source/binary baseline before changing capture, export or retention. Record the build hash and test environment. Close the application before switching executables, and preserve a copy of its data directory before any archive-format migration.
+For Auto Read aloud, explicitly select the ChatGPT conversation window in Options, then generate a new response. The selected window is session-specific. Enabling the option alone does not choose a window.
+
+The imported source has no functional modifications. The exact running server build on the user's Windows host still needs confirmation before Bridge integration proceeds. See VALIDATION.md.
